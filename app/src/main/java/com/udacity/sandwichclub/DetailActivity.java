@@ -30,11 +30,10 @@ public class DetailActivity extends AppCompatActivity {
 
         ImageView ingredientsIv = findViewById(R.id.image_iv);
 
-        textViewKnown = (TextView)findViewById(R.id.textView_known);
-        textViewIngredients = (TextView)findViewById(R.id.textView_ingredients);
-        textViewOrigin = (TextView)findViewById(R.id.textView_origin);
-        textViewDescription = (TextView)findViewById(R.id.textView_description);
-
+        textViewKnown = (TextView) findViewById(R.id.textView_known);
+        textViewIngredients = (TextView) findViewById(R.id.textView_ingredients);
+        textViewOrigin = (TextView) findViewById(R.id.textView_origin);
+        textViewDescription = (TextView) findViewById(R.id.textView_description);
 
 
         Intent intent = getIntent();
@@ -71,31 +70,29 @@ public class DetailActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
 
+
     private void populateUI(Sandwich sandwich) {
-        List<String> knownList = sandwich.getAlsoKnownAs();
-        String knownStr = "";
-        int length = knownList.size();
-        for (int i=0; i<length; i++){
-            if (i>0){
-                knownStr += ", ";
-            }
-            knownStr += knownList.get(i);
-        }
-        textViewKnown.setText(knownStr);
-
-        List<String> ingredients = sandwich.getIngredients();
-        String ingredientsStr = "";
-        for (int i=0; i<ingredients.size(); i++){
-            if (i>0){
-                ingredientsStr += ", ";
-            }
-            ingredientsStr += ingredients.get(i);
-        }
-        textViewIngredients.setText(ingredientsStr);
-
+        textViewOrigin.setText(sandwich.getPlaceOfOrigin());
         textViewDescription.setText(sandwich.getDescription());
 
-        textViewOrigin.setText(sandwich.getPlaceOfOrigin());
+        if (sandwich.getAlsoKnownAs().size() > 0) {
 
+            for (int i = 0; i < sandwich.getAlsoKnownAs().size(); i++) {
+                textViewKnown.append(sandwich.getAlsoKnownAs().get(i) + "\n");
+            }
+
+        } else {
+            textViewKnown.setText("...");
+        }
+
+        if (sandwich.getIngredients().size() > 0) {
+
+            for (int i = 0; i < sandwich.getIngredients().size(); i++) {
+                textViewIngredients.append(sandwich.getIngredients().get(i) + "\n");
+            }
+
+        } else {
+            textViewIngredients.setText("...");
+        }
     }
 }
